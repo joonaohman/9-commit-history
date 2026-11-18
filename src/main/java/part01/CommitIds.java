@@ -1,5 +1,6 @@
 package part01;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class CommitIds {
@@ -38,6 +39,22 @@ public class CommitIds {
          * Note also, that if the given commitLog is empty, you must return an empty
          * collection.
          */
-        return null;
+
+        Collection<String> ids = new ArrayList<>();
+
+        if (commitLog == null || commitLog.isEmpty()) {
+            return ids;
+        }
+
+        String[] lines = commitLog.split("\\R");
+
+        for (String line : lines) {
+            if (line.startsWith("Commit ")) {
+                String[] parts = line.split(" ");
+                ids.add(parts[1]);
+            }
+        }
+
+        return ids;
     }
 }
