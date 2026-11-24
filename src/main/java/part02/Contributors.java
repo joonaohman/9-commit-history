@@ -1,6 +1,9 @@
 package part02;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Contributors {
@@ -24,7 +27,23 @@ public class Contributors {
     public Collection<String> getContributors(String commitLog) {
         // Like in the previous exercise, you need to return an instance of some class
         // that implements the Collection interface. The choice is yours.
-        return null;
+
+        List<String> contributors = new ArrayList<>();
+
+        String[] rivit = commitLog.split("\n");
+
+        for (String rivi : rivit) {
+            if (rivi.startsWith("Commit ")) {
+                String[] osat = rivi.split(" ");
+                String contributor = osat[3];
+
+                if (!contributors.contains(contributor)) {
+                    contributors.add(contributor);
+                }
+            }
+        }
+
+        return contributors;
     }
 
     /**
@@ -48,6 +67,28 @@ public class Contributors {
      * @return a map containing the commit ids grouped by contributor
      */
     public Map<String, Collection<String>> groupCommitIdsByContributors(String commitLog) {
-        return null;
+
+        Map<String, Collection<String>> result = new HashMap<>();
+
+        String[] rivit = commitLog.split("\n");
+
+        for (String rivi : rivit) {
+
+            if (rivi.startsWith("Commit ")) {
+
+                String[] osat = rivi.split(" ");
+
+                String commitId = osat[1];
+                String contributor = osat[3];
+
+                if (!result.containsKey(contributor)) {
+                    result.put(contributor, new ArrayList<>());
+                }
+
+                result.get(contributor).add(commitId);
+            }
+        }
+
+        return result;
     }
 }
